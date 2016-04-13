@@ -1,4 +1,29 @@
-<!doctype html>
+<?php
+
+ $login = $_POST["login"];
+ $password = $_POST["password"];
+
+$users = [
+   array("id" => 1, "login" => "user1", "password" => "password1", "full_name" => "User 1"),
+   array("id" => 2, "login" => "user2", "password" => "password2", "full_name" => "User 2"),
+   array("id" => 3, "login" => "user3", "password" => "password3", "full_name" => "User 3"),
+ ];
+
+//If login exists it will return the id else it will return -1
+function userExists($login, $password, $users)
+{
+  foreach ($users as &$elem) 
+  {
+    if ($elem["login"] == $login && $elem["password"] == $password )
+      {
+        return $elem["id"];}
+      }
+
+    return -1; 
+}
+?>
+
+<!Doctype html>
 <html lang="en">
 <head>
   <link rel="stylesheet" type="text/css" href="twitter.css">
@@ -9,24 +34,64 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
-  <!-- Outermost container -->
-  <!-- Header -->
 <header id="temp">
+  <div class = "newtitletxt">
+    <p><h1>Impossible Octopus Fitness Club</h1></p>
+  </div>
   <div class="headercontainer flex-item">
     <div id="mobile_view_header">
       <button id="nav-button">&#9776;</button>
         <h1><img id="logo" src="https://maxcdn.icons8.com/wp-content/uploads/2014/01/octopus-128.png" alt="Impossible Octopus Fitness Club Logo"> <span class="visuallyhidden">Impossible Octopus Fitness</span> </h1>
     </div>
+    <nav>
     <nav class="nav-background">
       <ul class="centernav flex-item">
         <li><a href="index.html">Home</a></li>
         <li><a href="mystatuses.html">My statuses</a></li>
         <li><a href="allusers.html">All users</a></li>
       </ul>
+      <ul>
+      <?php 
+      echo '<br> Your rot13’d login is: ' . str_rot13 ( $login );
+      echo '<br>The length of your login is: ' . strlen($login);;
+       ?>
+       </ul>
       <ul class="toprightmenu flex-item">
-        <li id="firstitem"><a href="#">Edit my profile</a></li>
+        <li id="firstitem"><a href="#">
+              <?php
+
+      if (empty($login) || empty($password)) 
+        { 
+          echo "Hello, there!";
+        }  
+      else  { $exists = userExists($login, $password, $users);
+        {
+
+        }  
+        if ($exists < 0) 
+          {
+            echo nl2br("Hello, there!\n");?>   </a></li>
+            <?php
+            echo "<font color = 'red' > Invalid credentials </font>";
+
+
+          } 
+        else 
+          {
+            echo '<br>Hello ' . $users[$exist -1]["full_name"] . '!';
+            
+          }
+
+
+         }  
+
+
+?>
+
+        </a></li>
         <li><a href="#">Logout</a></li>
       </ul>
+
     </nav>
   </div>
 </header>
